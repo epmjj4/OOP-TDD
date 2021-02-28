@@ -15,38 +15,76 @@ const idARR = [];
 
 const runApp = () => {
 
-const managerPrompts = () => {
-inquirer.prompt([
-    //objects to get input on Managers name, email, id, and office number
-    {
-        type:'input',
-        message: "What is your manager's name?",
-        name: "managerName"
-    },
-    {
-        type:'input',
-        message: "What is your manager's email?",
-        name: "managerEmail"
-    },
-    {
-        type:'input',
-        message: "What is your manager's id?",
-        name: "managerID"
-    },
-    {
-        type:'input',
-        message: "What is your manager's office number?",
-        name: "managerOfficeNumber"
-    },
-
-    
-]).then(response => {
-    
-} )
-
-}
+    const managerPrompts = () => {
+        inquirer.prompt([
+            //objects to get input on Managers name, email, id, and office number
+            {
+                type: 'input',
+                message: "What is your manager's name?",
+                name: "managerName"
+            },
+            {
+                type: 'input',
+                message: "What is your manager's email?",
+                name: "managerEmail"
+            },
+            {
+                type: 'input',
+                message: "What is your manager's id?",
+                name: "managerID"
+            },
+            {
+                type: 'input',
+                message: "What is your manager's office number?",
+                name: "managerOfficeNumber"
+            },
 
 
+        ]).then(response => {
+            // variable to store all response hash for the manager's name, id, office number
+            const manager = Manager(response.managerName, response.managerEmail, response.managerID, response.officeNum);
+            //push all the input to emp array
+            empArr.push(manager);
+            idARR.push(response.managerID);
+            createEmpTeam();
+        })
+
+    }
+
+    const createEmpTeam = () => {
+        inquirer.prompt([{
+            type: 'list',
+            name: 'empType',
+            message: 'Which type of employee do you want to add?',
+            choices = ["Intern", "Engineer", "I'm finished!"]
+        }]).then(response => {
+            // switch to toggle between assigned function
+            switch (response.empType) {
+                case 'Intern':
+                    createIntern();
+                    break;
+                case 'Engineer':
+                    createEngineer();
+                    break;
+                    createEmpTeam();
+            }
+        })
+    }
+
+    const createIntern = () => {
+
+
+    }
+
+    const createEngineer = () => {
+
+
+    }
+
+    const createEmpTeam = () => {
+
+
+    }
 
 }
 
