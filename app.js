@@ -13,13 +13,44 @@ const render = require("./lib/htmlRenderer");
 const empArr = [];
 const idARR = [];
 
-const runApp = () = {
+const runApp = () => {
 
-
-
+const managerPrompts = () => {
+inquirer.prompt([
+    //objects to get input on Managers name, email, id, and office number
+    {
+        type:'input',
+        message: "What is your manager's name?",
+        name: "managerName"
+    },
+    {
+        type:'input',
+        message: "What is your manager's email?",
+        name: "managerEmail"
+    },
+    {
+        type:'input',
+        message: "What is your manager's id?",
+        name: "managerID"
+    },
+    {
+        type:'input',
+        message: "What is your manager's office number?",
+        name: "managerOfficeNumber"
+    },
 
     
+]).then(response => {
+    
+} )
+
 }
+
+
+
+}
+
+runApp();
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
