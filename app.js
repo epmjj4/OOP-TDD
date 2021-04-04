@@ -42,21 +42,21 @@ const runApp = () => {
 
         ]).then(response => {
             // variable to store all response hash for the manager's name, id, office number
-            const manager = Manager(response.managerName, response.managerEmail, response.managerID, response.officeNum);
+            const manager = new Manager(response.managerName, response.managerEmail, response.managerID, response.officeNum);
             //push all the input to emp array
             empArr.push(manager);
             idARR.push(response.managerID);
-            createEmpTeam();
+            teamChoices();
         })
 
     }
 
-    const createEmpTeam = () => {
+    const teamChoices = () => {
         inquirer.prompt([{
             type: 'list',
             name: 'empType',
             message: 'Which type of employee do you want to add?',
-            choices = ["Intern", "Engineer", "I'm finished!"]
+            choices: ["Intern", "Engineer", "I'm finished!"]
         }]).then(response => {
             // switch to toggle between assigned function
             switch (response.empType) {
@@ -66,48 +66,88 @@ const runApp = () => {
                 case 'Engineer':
                     createEngineer();
                     break;
+                    default:
                     createEmpTeam();
             }
         })
     }
-
+    // function to prompt user input for intern information
     const createIntern = () => {
-
+        inquirer.prompt([{
+                type: 'input',
+                message: "What is your intern's name?",
+                name: "internName"
+            },
+            {
+                type: 'input',
+                message: "What is your intern's id?",
+                name: "internId"
+            },
+            {
+                type: 'input',
+                message: "What is your intern's email?",
+                name: "internEmail"
+            },
+            {
+                type: 'input',
+                message: "What is your intern's id?",
+                name: "internSchool"
+            },
+        ]).then(answer => {
+            // grab all input about the intern from the answers hash
+            const intern = new Intern(answer.internName, answer.internId, answer.internEmail, answer.internSchool);
+            //push the intern variable to the employee array
+            empArr.push(intern);
+            // push only the internalID answer to hash to the id array
+            idARR.push(answer.internId);
+            //run prompts to crweate team members again
+            teamChoices();
+        })
 
     }
 
     const createEngineer = () => {
-
+        inquirer.prompt([{
+            type: 'input',
+            message: "What is your engineer's name?",
+            name: "engineerName"
+        },
+        {
+            type: 'input',
+            message: "What is your engineer's id?",
+            name: "engineerId"
+        },
+        {
+            type: 'input',
+            message: "What is your engineer's email?",
+            name: "engineerEmail"
+        },
+        {
+            type: 'input',
+            message: "What is your engineer's id?",
+            name: "engineerGithub"
+        },
+    ]).then(answer => {
+        // grab all input about the engineer from the answers hash
+        const engineer = new Engineer(answer.engineerName, answer.engineerId, answer.engineerEmail, answer.engineerGithub);
+        //push the engineer variable to the employee array
+        empArr.push(engineer);
+        // push only the engineeralID answer to hash to the id array
+        idARR.push(answer.engineerId);
+        //run prompts to crweate team members again
+        teamChoices();
+    })
 
     }
 
     const createEmpTeam = () => {
-
-
+        // in case the ouput directory doesn't exist, create one
+        if(!fs.existsSync(OUTPUT_DIR)) {
+            fs.mkdirSyn(OUTPUT_DIR);
+        }
+        fs.writeFileSync(outputPath, render(empArr), 'utf8')
     }
-
+managerPrompts();
 }
 
 runApp();
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
-
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
-
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
-
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
