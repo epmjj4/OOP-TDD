@@ -90,7 +90,7 @@ const runApp = () => {
             },
             {
                 type: 'input',
-                message: "What is your intern's id?",
+                message: "What is your intern's school?",
                 name: "internSchool"
             },
         ]).then(answer => {
@@ -124,7 +124,7 @@ const runApp = () => {
         },
         {
             type: 'input',
-            message: "What is your engineer's id?",
+            message: "What is your engineer's Github?",
             name: "engineerGithub"
         },
     ]).then(answer => {
@@ -134,7 +134,7 @@ const runApp = () => {
         empArr.push(engineer);
         // push only the engineeralID answer to hash to the id array
         idARR.push(answer.engineerId);
-        //run prompts to crweate team members again
+        //run prompts to create team members again
         teamChoices();
     })
 
